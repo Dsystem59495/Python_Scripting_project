@@ -1,0 +1,31 @@
+﻿Map level;Name Level;River?;Number of Roads;Number of trees;Number of houses;Number of Merchants;Number of Monsters;level of Monsters;level of Merchants
+1;Chemin des plaines;False;1;0;0;0;1;1;0
+2;Village de Burste;False;1;2;5;1;0;0;1
+3;Foret Rouge;False;1;15;0;0;4;1;0
+4;Croix de la Foret Rouge;False;2;10;1;1;6;1;1
+5;La Riviere Rouge;True;0;10;0;0;6;1;0
+6;Le long de la Riviere;True;1;5;0;0;8;1;0
+7;Village de la Fontaine;True;1;3;6;2;4;1;1
+8;Plaine des Rois;False;3;2;0;0;8;1;0
+9;Hameau des Rois;False;1;1;5;0;6;1;0
+10;Chutes du Prestige Social;True;0;5;1;1;10;1;0
+11;A travers la Foret de Batelsberg;False;0;13;0;0;1;2;0
+12;Embuscade  a Batelsberg;False;1;10;1;0;6;2;0
+13;Traversee de la Riviere Noire;True;1;10;0;1;6;2;2
+14;Le village de Batelsberg;False;2;10;5;2;4;2;2
+15;La Fin de la Foret de Batelsberg;False;1;7;2;0;6;2;2
+16;La Route du Nord;False;1;2;0;0;2;2;0
+17;L'Auberge de la Route du Nord;False;2;0;1;1;6;2;2
+18;La Route du Nord Petit Bois;True;1;6;0;0;4;2;0
+19;Riviere de Fjiskul;True;0;4;2;0;8;2;0
+20;Traversee a gue;True;0;2;0;0;10;2;0
+21;Des arbres avec des branches;False;0;25;0;1;0;0;3
+22;La croise des chemins;False;4;2;0;1;3;3;3
+23;Village de nuit;False;2;0;8;1;3;3;3
+24;Rouge Rouge et encore Rouge;True;1;5;2;0;5;3;3
+25;Flash Back: la belle Epoque;True;1;2;6;2;3;1;1
+26;Foret de Gronings;False;0;25;0;0;6;3;0
+27;Riviere de Feu;True;2;0;0;0;8;3;0
+28;Riviere de Feu le retour;True;0;0;1;0;8;3;0
+29;Cite d'Or;False;3;0;7;4;0;0;3
+30;La Bataille du Grand Arbre;False;0;1;0;0;20;3;0

@@ -1,0 +1,17 @@
+Id;WeaponName;Description;goldValue;levelrequired;dodgeBonus;parryBonus;criticalHitBonus;damageMinBonus;damageMaxBonus
+1;Pistolet a eau;portee tres faible;5;1;2;0;5;1;20
+2;Raquette de Ping Pong;Permet l'envoie rapide de projectiles;20;1;3;3;4;5;20
+3;Epee en Bois;Utile pour ne pas se faire mal durant les entrainement. Inutile au combat.;20;1;5;5;3;5;25;
+4;Rouleaux de Papier Toilette Ecologique;Immobilise l'ennemi un cours instant et lui prend son honneur;30;2;0;10;2;10;5
+5;Stylot Bic rouge;Pour mettre a l'ennemi une mauvaise note;30;2;10;0;7;0;4
+6;Baquette scientifique;Ce n'est pas une baquette magique, elle s'utilise comme touillette en TP de Chimie.;50;2;10;5;0;10;10
+7;Cle anglaise;Un classique du Cluedo;50;3;20;5;10;20;0
+8;PV de la gendarmerie nationale;Pour sanctionner votre ennemi;60;3;20;0;20;5;5
+9;Bardiche;Arme d'hast du moyen age;60;4;25;5;4;3;10
+10;Arc voute;Arc qui envoit votre ennemi au cimetiere;70;4;1;1;1;20;5
+11;Canard en plastique;Destabilise votre adversaire;80;5;0;0;0;0;30
+12;Sabre de cavalerie;Pour charger votre ennemi;90;5;30;20;10;5;5
+13;Pokeball;Contient de nombreux Pokemon;100;5;0;4;20;6;10
+14;Panzer III;Un modele reduit d'un Panzer III;150;6;12;6;12;30;10
+15;Sac a main;Arme fatale de toute aventuriere;200;6;30;30;30;30;30
+16;B.A.R;Fusil mitrailleur americain;200;6;40;0;50;40;40

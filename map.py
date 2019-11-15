@@ -8,6 +8,9 @@
 import random;
 import time #pour test uniquement
 import copy
+import os
+import re
+import ast
 
 class Map:
     "a Map"
@@ -26,8 +29,7 @@ class Map:
     def initialiseListe(self):
         self.groundMap = [[" " for i in range(50)] for j in range(25)]  # texture du sol
         self.decorMap = [[0 for i in range(50)] for j in range(25)]  # position d'elements: arbres, batiments
-        self.characterMap = [[0 for i in range(50)] for j in
-                             range(25)]  # position des personnages: hero, marchant, monstre
+        self.characterMap = [[0 for i in range(50)] for j in range(25)]  # position des personnages: hero, marchant, monstre
 
 
 
@@ -161,6 +163,21 @@ class Map:
         #   /|\    /|\    ( )   (   )
         #    |      |      |      |
         #    1      2      3      4
+
+        #generation de la porte dans l'espace des monstres
+
+        i=random.randint(1,5)
+        j=random.randint(1,5)
+        iBis=random.randint(0,1)
+        jBis=random.randint(0,1)
+        if iBis==1:        #determine si la porte est en haut ou en bas
+            i=self.length-2-i
+        if jBis==1:        #determine si la porte est a droite ou a gauche
+            j=self.width-2-j
+        self.decorMap[i][j]=8
+
+
+        #generation des arbres
         for i in range(arbres):
             type=random.randint(1,4)
 
@@ -470,6 +487,9 @@ class Map:
                     printableMap[i - 2][j + 4] = "_"
                     printableMap[i - 2][j + 5] = "_"
 
+            if  cas==8: #si c'est une porte elle se cache parmi les fleurs
+                printableMap[i][j] = "*"
+
 
 
 
@@ -516,7 +536,7 @@ class Map:
 
        for row in printableMap: #affichage de la table
            for elem in row:
-               print(elem, end=' ')
+               print(elem, end=' ') #erreur etrange
            print()
 
 
@@ -537,8 +557,8 @@ class Map:
 
             #gestion obstacle
 
-            if ((self.decorMap[iNew][jNew]!=0 and self.decorMap[iNew][jNew]!=-1) or self.characterMap[iNew][jNew]!=0) and code==False:
-            #si obstacle pas de mouvement
+            if ((self.decorMap[iNew][jNew]!=0 and self.decorMap[iNew][jNew]!=-1 and self.decorMap[iNew][jNew]!=8) or self.characterMap[iNew][jNew]!=0) and code==False:
+            #si obstacle pas de mouvement, une porte n'est pas un obstacle
                 code=True
 
             #arrivee dans une riviere: on ne peut avancer qu'une case a la fois dans une riviere
@@ -561,6 +581,127 @@ class Map:
 
         return position
 
+    def checkHeroDoor(self,position): #fonction qui verifit si un personnage est arrive a la porte si c'est le cas la partie doit etre enregistre et un nouveau niveau doit etre charge
+        if self.decorMap[position[0]][position[1]]==8:
+            return True
+        elif self.decorMap[position[0]+1][position[1]]==8:
+            return True
+        elif self.decorMap[position[0]-1][position[1]]==8:
+            return True
+        elif self.decorMap[position[0]+1][position[1]+1]==8:
+            return True
+        elif self.decorMap[position[0]-1][position[1]-1]==8:
+            return True
+        elif self.decorMap[position[0]][position[1]+1]==8:
+            return True
+        elif self.decorMap[position[0]][position[1]-1]==8:
+            return True
+        elif self.decorMap[position[0]+1][position[1]-1]==8:
+            return True
+        elif self.decorMap[position[0]-1][position[1]+1]==8:
+            return True
+        else:
+            return False
+
+    def checkMonster(self,position):  # fonction qui verifit si un monstre est a cote du hero, si c'est le cas il a combat
+            if self.characterMap[position[0]][position[1]] == 3:
+                return True
+            elif self.characterMap[position[0] + 1][position[1]] == 3:
+                return True
+            elif self.characterMap[position[0] - 1][position[1]] == 3:
+                return True
+            elif self.characterMap[position[0] + 1][position[1] + 1] == 3:
+                return True
+            elif self.characterMap[position[0] - 1][position[1] - 1] == 3:
+                return True
+            elif self.characterMap[position[0]][position[1] + 1] == 3:
+                return True
+            elif self.characterMap[position[0]][position[1] - 1] == 3:
+                return True
+            elif self.characterMap[position[0] + 1][position[1] - 1] == 3:
+                return True
+            elif self.characterMap[position[0] - 1][position[1] + 1] == 3:
+                return True
+            else:
+                return False
+
+    def checkMerchant(self,position):  # fonction qui verifit si un marchand est a cote du hero, si c'est le cas il a possibilite de commercer
+            if self.characterMap[position[0]][position[1]] == 2:
+                return True
+            elif self.characterMap[position[0] + 1][position[1]] == 2:
+                return True
+            elif self.characterMap[position[0] - 1][position[1]] == 2:
+                return True
+            elif self.characterMap[position[0] + 1][position[1] + 1] == 2:
+                return True
+            elif self.characterMap[position[0] - 1][position[1] - 1] == 2:
+                return True
+            elif self.characterMap[position[0]][position[1] + 1] == 2:
+                return True
+            elif self.characterMap[position[0]][position[1] - 1] == 2:
+                return True
+            elif self.characterMap[position[0] + 1][position[1] - 1] == 2:
+                return True
+            elif self.characterMap[position[0] - 1][position[1] + 1] == 2:
+                return True
+            else:
+                return False
+
+
+
+
+
+#classe level, initialise la carte avec les monstres en fonction du level de la carte
+class Level:
+    "a level"
+    map=Map()
+    def __init__(self,levelNumber):
+        file = open(r'levelMap.txt', 'r+', encoding="utf-8")
+        enregistrement = []
+
+        title=file.readline()#premiere ligne inutile
+        for i in range(30):
+            enregistrement.append(file.readline()) #enregistrement de toutes les lignes
+        file.close()
+
+        #enregistrements des parametres de la carte en fonction du niveau
+        engr=enregistrement[levelNumber-1].split(";")
+        name=engr[1]
+        river=engr[2]
+        roads=engr[3]
+        trees=engr[4]
+        houses=engr[5]
+        merchants=engr[6]
+        monster=engr[7]
+        levelMonster=engr[8]
+        levelMerchant=engr[9]
+
+        #creation de la carte
+
+        self.map.initialiseListe()
+        self.map.groundMapInitialisation(ast.literal_eval(river),int(roads))
+        self.map.decorMapInitialisation(int(trees),int(houses))
+
+        #ajout personnages
+        gdzdzi=self.map.adHero()
+        for i in range(int(merchants)):
+            ga=self.map.adMerchant()
+        for i in range(int(monster)):
+            ded=self.map.adMonster()
+
+        print("#############################################")
+        print("level:"+str(levelNumber))
+        print(str(name))
+        print("#############################################")
+
+
+
+
+
+
+for i in range(30):
+     level=Level(i+1)
+     level.map.printMap()
 
 
 

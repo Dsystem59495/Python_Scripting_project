@@ -1,0 +1,8 @@
+id;name;description;goldValue;healtBonus;shielBonus;dodgeBonus;parryBonus;criticalHitBonus;damageMinBonus;damageMaxBonus;magicPointsBonus
+1;Croco;Aucun rapport avec l'animal;20;-10;-5;10;10;20;10;10;0
+2;Mouchoir kleenex;Contre les saignements de nez;10;10;5;0;0;0;0;0;0
+3;Schanps des Fees;La boisson des druides;20;3;0;-5;-5;-5;-5;-5;30
+4;Eau de (la) vie;Une rumeur veut que l'alcool soigne;30;50;10;-10;-10;-10;-10;-10;0
+5;Potion de guerison;Pour guerir a l'aide de la magie;40;50;10;0;0;0;0;0;-20
+6;Gel pour cheveux;Renforce les cheveux contre les coups a la tete;20;0;30;0;0;0;0;0;0
+7;L'evitation;Pour eviter les coups de l'ennemi;10;0;10;0;20;0;0;0;0
