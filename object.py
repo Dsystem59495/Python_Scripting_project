@@ -267,17 +267,45 @@ class Inventory:
     def displayInventoryActive(self):
         print("VOTRE INVENTAIRE ACTIF:")
         print("ARMES")
-        print("MAIN GAUCHE: "+self.handSlot[0].name)
-        print("MAIN DROITE: "+self.handSlot[1].name)
+        if len(self.handSlot)!=0:
+           print("MAIN GAUCHE: "+self.handSlot[0].name)
+           if len(self.handSlot)!=1:
+                print("MAIN DROITE: "+self.handSlot[1].name)
+           else:
+               print("MAIN DROITE:")
+        else:
+            print("MAIN GAUCHE:\nMAIN DROITE:")
         print("\nARMURE")
-        print("TETE: "+self.headSlot[0].name)
-        print("CORPS: " + self.chestSlot[0].name)
-        print("PROTECTION BRAS: "+self.handSlot[0].name)
-        print("PANTALON: " + self.pantsSlot[0].name)
-        print("PROTECTION JAMBES: " + self.legsSlot[0].name)
+        if len(self.headSlot)!=0:
+           print("TETE: "+self.headSlot[0].name)
+        else:
+            print("TETE:")
+        if len(self.chestSlot) != 0:
+            print("CORPS: " + self.chestSlot[0].name)
+        else:
+            print("CORPS:")
+        if len(self.chestSlot) != 0:
+            print("PROTECTION BRAS: "+self.armsSlot[0].name)
+        else:
+            print("PROTECTION BRAS: ")
+        if len(self.pantsSlot)!=0:
+            print("PANTALON: " + self.pantsSlot[0].name)
+        else:
+            print("PANTALON:")
+        if len(self.legsSlot)!=0:
+            print("PROTECTION JAMBES: " + self.legsSlot[0].name)
+        else:
+            print("PROTECTION JAMBES:")
         print("\nJOYAUX")
-        print("JOYAU 1: "+self.jewelSlot[0].name)
-        print("JOYAU 2: " + self.jewelSlot[1].name)
+        if len(self.jewelSlot)!=0:
+              print("JOYAU 1: "+self.jewelSlot[0].name)
+              if len(self.jewelSlot)!=1:
+                 print("JOYAU 2: " + self.jewelSlot[1].name)
+              else:
+                  print("JOYAU 2:")
+        else:
+            print("JOYAU 1:")
+            print("JOYAU 2:")
 
 
 
@@ -403,54 +431,99 @@ class Inventory:
 
     def saveInventory(self,filePath): #sauvegarder l'inventaire a la suite d'un fichier
         file= open(filePath, "a")
-        file.write("INVENTORY\n")
+        file.write("\nINVENTORY\n")
         #Une ligne ecrite= 1 emplacement dans l'inventaire
         for object in self.objectList:
-            file.write(str(object.type())+","+str(object.id)+";") #liste des objets de l'inventaire inactif type + id
+            file.write(str(object.__class__)+","+str(object.id)+";") #liste des objets de l'inventaire inactif type + id
         file.write("\n"+str(self.gold)) #gold
-        file.write("\n" + str(self.headSlot[0].id))#tete uniquement identifiant
-        file.write("\n" + str(self.chestSlot[0].id))#corps
-        file.write("\n" + str(self.armsSlot[0].id))#protection bras
-        file.write("\n" + str(self.pantsSlot[0].id))#pantalon
-        file.write("\n" + str(self.legsSlot[0].id))#protections des chambes
-        file.write("\n" + str(self.handSlot[0].id)+","+self.handSlot[1].id)#armes
-        file.write("\n" + str(self.jewelSlot[0].id) + "," + self.jewelSlot[1].id)  #joyaux
+        if len(self.headSlot)!=0:
+            file.write("\n" + str(self.headSlot[0].id))#tete uniquement identifiant
+        else:
+            file.write("\n0")
+        if len(self.chestSlot) != 0:
+            file.write("\n" + str(self.chestSlot[0].id))#corps
+        else:
+            file.write("\n0")
+        if len(self.armsSlot) != 0:
+            file.write("\n" + str(self.armsSlot[0].id))#protection bras
+        else:
+            file.write("\n0")
+        if len(self.pantsSlot) != 0:
+            file.write("\n" + str(self.pantsSlot[0].id))#pantalon
+        else:
+            file.write("\n0")
+        if len(self.legsSlot) != 0:
+            file.write("\n" + str(self.legsSlot[0].id))#protections des chambes
+        else:
+            file.write("\n0")
+        if len(self.handSlot)!=0:
+            if len(self.handSlot)==2:
+                   file.write("\n" + str(self.handSlot[0].id)+","+self.handSlot[1].id)#armes
+            elif len(self.handSlot)==1:
+                   file.write("\n" + str(self.handSlot[0].id)+",0")  # armes
+        else:
+            file.write("\n0,0")
+        if len(self.jewelSlot)!=0:
+            if len(self.jewelSlot)==2:
+               file.write("\n" + str(self.jewelSlot[0].id) + "," + self.jewelSlot[1].id)  #joyaux
+            elif len(self.jewelSlot)==1:
+               file.write("\n" + str(self.jewelSlot[0].id)+",0")  #joyaux
+        else:
+            file.write("\n0,0")
         file.close()
 
     def loadInventory(self,filePath):#charger un inventaire depuis un fichier
         file = open(filePath, "r")
-        ligne=file.read()
-        while str(ligne)!="INVENTORY":
-            ligne = file.read()
+        ligne=file.readline()
 
-        inventoryInactive=file.read()
+        while str(ligne)!="INVENTORY\n":
+            ligne = file.readline()
+
+
+
+        inventoryInactive=file.readline()
         engr=inventoryInactive.split(";") #on recupere l'inventaire inactif
         for eng in engr:   #pour chaque objet on va determiner sa classe et on va ensuite charger l'objet depuis la bdd grace a son id
             object=eng.split(",")
-            if str(object[0])=="Weapon":
+            if str(object[0])=="<class '__main__.Weapon'>":
                 self.addItemToInventory(chargeAWeaponFromDB(int(object[1])))
-            elif str(object[0])=="Armor" :
+            elif str(object[0])=="<class '__main__.Armor'>" :
                 self.addItemToInventory(chargeAnArmorFromDB(int(object[1])))
-            elif str(object[0])=="Jewel" :
+            elif str(object[0])=="<class '__main__.Jewel'>" :
                 self.addItemToInventory(chargeAJewelFromDB(int(object[1])))
-            elif str(object[0])=="Consumable":
+            elif str(object[0])=="<class '__main__.Consumable'>":
                 self.addItemToInventory(chargeAConsumableFromDB(int(object[1])))
 
-        self.gold=int(file.read())#chargement de l'or
+        self.gold=int(file.readline())#chargement de l'or
         #chargement de l'armure
-        self.headSlot[0]=chargeAnArmorFromDB(file.read())
-        self.chestSlot[0] = chargeAnArmorFromDB(file.read())
-        self.armsSlot[0] = chargeAnArmorFromDB(file.read())
-        self.pantsSlot[0] = chargeAnArmorFromDB(file.read())
-        self.legsSlot[0] = chargeAnArmorFromDB(file.read())
+        id=int(file.readline())
+        if id!=0:
+           self.headSlot[0]=chargeAnArmorFromDB(id)
+        id = int(file.readline())
+        if id != 0:
+           self.chestSlot[0] = chargeAnArmorFromDB(id)
+        id = int(file.readline())
+        if id != 0:
+            self.armsSlot[0] = chargeAnArmorFromDB(id)
+        id = int(file.readline())
+        if id != 0:
+            self.pantsSlot[0] = chargeAnArmorFromDB(id)
+        id = int(file.readline())
+        if id != 0:
+             self.legsSlot[0] = chargeAnArmorFromDB(id)
         #chargement des armes
-        weapons=file.read().split(",")
-        self.handSlot[0]=chargeAWeaponFromDB(weapons[0])
-        self.handSlot[1] = chargeAWeaponFromDB(weapons[1])
+        weapons=file.readline().split(",")
+        if int(weapons[0])!=0:
+            self.handSlot[0]=chargeAWeaponFromDB(int(weapons[0]))
+        if int(weapons[1])!=0:
+            self.handSlot[1] = chargeAWeaponFromDB(int(weapons[1]))
         #chargement des joyaux
-        jewel=file.read().split(",")
-        self.jewelSlot[0]=chargeAJewelFromDB(jewel[0])
-        self.jewelSlot[1] = chargeAJewelFromDB(jewel[1])
+        jewel=file.readline().split(",")
+        if int(jewel[0])!=0:
+            self.jewelSlot[0]=chargeAJewelFromDB(int(jewel[0]))
+        if int(jewel[1]) != 0:
+            self.jewelSlot[1] = chargeAJewelFromDB(int(jewel[1]))
+        file.close()
 
     def createMerchantInventory(self,level): #création d'un inventaire pseudo-aleatoirement pour un marchand en fonction de son level
 
@@ -504,8 +577,39 @@ class Inventory:
                     id = random.randint(1, 7)
                     self.addItemToInventory(chargeAConsumableFromDB(id))
 
-#reste a faire creer inventaire pour monstre
 
+    def createMonsterInventory(self,head,chest,arms,pants,legs,weapon1,weapon2,jewel1,jewel2): #donne des armes aux monstres en fonction du niveau
+        if head!=0:
+            self.headSlot.append(chargeAnArmorFromDB(head))
+        if chest!=0:
+            self.chestSlot.append(chargeAnArmorFromDB(chest))
+        if arms!=0:
+            self.armsSlot.append(chargeAnArmorFromDB(arms))
+        if pants!=0:
+            self.pantsSlot.append(chargeAnArmorFromDB(pants))
+        if legs!=0:
+            self.legsSlot.append(chargeAnArmorFromDB(legs))
+        if weapon1!=0:
+            self.handSlot.append(chargeAWeaponFromDB(weapon1))
+        if weapon2!=0:
+            self.handSlot.append(chargeAWeaponFromDB(weapon2))
+        if jewel1!=0:
+            self.jewelSlot.append(chargeAJewelFromDB(jewel1))
+        if jewel2!=0:
+            self.jewelSlot.append(chargeAJewelFromDB(jewel2))
+
+
+
+
+
+
+#reste a faire creer inventaire pour monstre
+moninventaire=Inventory(1)
+
+
+moninventaire.loadInventory("C:\\Users\\Gabriel\\Documents\\PythonRPGprojet\\pythoncode\\testsauvegardeinventaire.txt")
+moninventaire.displayInventoryInactive()
+moninventaire.displayInventoryActive()
 
 
 
