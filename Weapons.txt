@@ -4,7 +4,7 @@ Id;WeaponName;Description;goldValue;levelrequired;dodgeBonus;parryBonus;critical
 3;Epee en Bois;Utile pour ne pas se faire mal durant les entrainement. Inutile au combat.;20;1;5;5;3;5;25;
 4;Rouleaux de Papier Toilette Ecologique;Immobilise l'ennemi un cours instant et lui prend son honneur;30;2;0;10;2;10;5
 5;Stylot Bic rouge;Pour mettre a l'ennemi une mauvaise note;30;2;10;0;7;0;4
-6;Baquette scientifique;Ce n'est pas une baquette magique, elle s'utilise comme touillette en TP de Chimie.;50;2;10;5;0;10;10
+6;Baquette scientifique;Ce n'est pas une baquette magique elle s'utilise comme touillette en TP de Chimie;50;2;10;5;0;10;10
 7;Cle anglaise;Un classique du Cluedo;50;3;20;5;10;20;0
 8;PV de la gendarmerie nationale;Pour sanctionner votre ennemi;60;3;20;0;20;5;5
 9;Bardiche;Arme d'hast du moyen age;60;4;25;5;4;3;10

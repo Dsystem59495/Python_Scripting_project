@@ -1,0 +1,14 @@
+
+
+
+
+INVENTORY
+<class '__main__.Armor'>,17;<class '__main__.Armor'>,4;<class '__main__.Armor'>,6;<class '__main__.Consumable'>,1;<class '__main__.Armor'>,7;<class '__main__.Consumable'>,2;<class '__main__.Weapon'>,5;<class '__main__.Jewel'>,9;<class '__main__.Weapon'>,15;<class '__main__.Weapon'>,2;<class '__main__.Weapon'>,3;<class '__main__.Consumable'>,6;<class '__main__.Armor'>,18;<class '__main__.Armor'>,7;<class '__main__.Jewel'>,8;<class '__main__.Weapon'>,7;<class '__main__.Consumable'>,7;<class '__main__.Armor'>,1;
+10
+0
+0
+0
+0
+0
+0,0
+0,0

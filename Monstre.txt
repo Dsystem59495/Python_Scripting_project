@@ -1,0 +1,10 @@
+id;name;description;level;head;chest;arms;pants;legs;weapon1;weapon2;jewel1;jewel2;speed
+1;Huissier de Justice;Cherche a perquisitionner votre inventaire;1;0;3;0;5;0;3;0;2;0;1
+2;Chevre;Vous mange les pieds;1;1;0;0;4;7;2;0;3;0;1
+3;Grippe;Mechant a vous rendre malade;1;2;3;6;0;0;3;0;0;0;2
+4;Chimere;Prend la forme de votre pire cauchemar;2;9;3;0;4;7;4;0;0;0;2
+5;Danois;Viking redoutable;2;8;10;12;11;0;3;2;5;0;1
+6;Sectaire de la lune; Issu de la redoutable secte de la Lune;2;1;3;6;5;13;6;5;6;0;1
+7;Anglais; Ennemi de toujours;3;8;10;18;17;19;7;5;6;7;2
+8;Jean-Marc Le Stylot; Une momie invincible;3;14;16;18;17;13;9;12;7;0;1
+9;Tondeuse a gazon;Coupe tout de qui est vert (elles sont aussi daltoniennes);3;0;15;12;11;19;13;14;0;0;2

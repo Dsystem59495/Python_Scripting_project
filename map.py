@@ -4,17 +4,15 @@
 ##################################################
 
 
-
-import random;
-import time #pour test uniquement
 import copy
-import os
-import re
 import ast
+from interaction import *
+import character as ch
 
 class Map:
+    # auteur Gabriel Desmullier
     "a Map"
-    length=25
+    length=25 #taille de la carte
     width=50
     groundMap = []  # texture du sol
     decorMap = []  # position d'elements: arbres, batiments
@@ -23,17 +21,22 @@ class Map:
 
 
     def _init__(self,id):
+        # auteur Gabriel Desmullier
       self.id=id
 
 
     def initialiseListe(self):
+        # auteur Gabriel Desmullier
+        #donner la bonne taille aux listes et les remplir d'un meme motif
         self.groundMap = [[" " for i in range(50)] for j in range(25)]  # texture du sol
         self.decorMap = [[0 for i in range(50)] for j in range(25)]  # position d'elements: arbres, batiments
         self.characterMap = [[0 for i in range(50)] for j in range(25)]  # position des personnages: hero, marchant, monstre
 
 
 
-    def groundMapInitialisation(self,river,chemin): #texturation de la carte et bordure
+    def groundMapInitialisation(self,river,chemin):
+        #auteur Gabriel Desmullier
+        #texturation de la carte et bordure
         #bordure de la carte
         for j in range(self.width):
             self.groundMap[0][j]="-"
@@ -43,7 +46,7 @@ class Map:
             self.groundMap[i][0]="|"
             self.groundMap[i][self.width-1]="|"
 
-        #ajout de fleurs * pour faire beau
+        #ajout de fleurs * pour faire beau mais pas que
         for i in range(1,self.length-1):
             for j in range(1,self.width-1):
                 nombre=random.randint(0,50)
@@ -155,7 +158,9 @@ class Map:
                         j = j + newDirection[1]
                         self.groundMap[i][j] = "#"
 
-    def decorMapInitialisation(self, arbres, maisons):  # ajout d'elements de decor
+    def decorMapInitialisation(self, arbres, maisons):
+        #auteur Gabriel Desmullier
+        # ajout d'elements de decor
 
         #ajout des arbres: il y a 4 types d'arbres:
         #           ^             _
@@ -179,9 +184,9 @@ class Map:
 
         #generation des arbres
         for i in range(arbres):
-            type=random.randint(1,4)
+            type=random.randint(1,4) #type d'arbre a planter
 
-            i=random.randint(1,self.length-2)
+            i=random.randint(1,self.length-2) #position sur la carte
             j=random.randint(1,self.width-2)
             while self.groundMap[i][j]!=" " and self.decorMap[i][j]==0: #les arbres poussent uniquement dans l'herbe (au moins le pied du tronc)
                 i = random.randint(1, self.length - 2)
@@ -189,7 +194,7 @@ class Map:
             self.decorMap[i][j]=type
 
             if type==1 or type==3: #gestion de la transparance et du placement des decors( pour eviter qu'un arbre soit sur un autre)
-                if i-1>=1:
+                if i-1>=1:          #-1 sert a bloquer la case et a indiquer a un personnage qu'il n'est plus visible
                     self.decorMap[i-1][j]=-1
                     if j-1>=1:
                         self.decorMap[i-1][j-1]=-1
@@ -257,8 +262,8 @@ class Map:
             self.decorMap[i][j]=type
             if type == 5 or type==7:  # transparance
 
-                self.decorMap[i][j + 1] = -2
-                self.decorMap[i][j + 2] = -2
+                self.decorMap[i][j + 1] = -2 #-2= base la maison et -1 derriere la maison
+                self.decorMap[i][j + 2] = -2 #-2= inaccecible pour un personnage -1 accessible mais personnage cache
                 self.decorMap[i][j + 3] = -2
                 self.decorMap[i][j + 4] = -2
                 self.decorMap[i][j + 5] = -2
@@ -299,7 +304,9 @@ class Map:
                     self.decorMap[i - 2][j + 6] = -1
 
 
-    def adMonster(self): #les monstres doivent apparaitres au bord de la carte
+    def adMonster(self):
+        # auteur Gabriel Desmullier
+        #les monstres doivent apparaitres au bord de la carte
         i=random.randint(1,5)
         j=random.randint(1,5)
         iBis=random.randint(0,1)
@@ -322,7 +329,9 @@ class Map:
         self.characterMap[i][j]= 3 #on ajoute le monstre a la carte
         return [i,j] #on renvoie les coordonnees
 
-    def adMerchant(self): #les marchands apparaaissent partout sur la carte
+    def adMerchant(self):
+        # auteur Gabriel Desmullier
+        #les marchands apparaaissent partout sur la carte
         i=random.randint(1,self.length-2)
         j=random.randint(1,self.width-2)
         while self.decorMap[i][j] != 0 or self.decorMap[i][j] != -1 and self.characterMap[i][j] != 0:
@@ -332,7 +341,9 @@ class Map:
         self.characterMap[i][j]= 2 #on ajoute le marchand a la carte
         return [i,j] #on renvoie les coordonnees
 
-    def adHero(self): #le hero apparait au milieu de la carte
+    def adHero(self):
+        # auteur Gabriel Desmullier
+        #le hero apparait au milieu de la carte
         i=random.randint(9,14)
         j=random.randint(20,40)
         while self.decorMap[i][j] != 0 or self.decorMap[i][j] != -1 and self.characterMap[i][j] != 0:
@@ -343,6 +354,8 @@ class Map:
         return [i,j] #on renvoie les coordonnees
 
     def printMap(self):
+        # auteur Gabriel Desmullier
+        #affichage des differents niveaux de la carte
 
        printableMap=copy.deepcopy(self.groundMap)
 
@@ -541,13 +554,17 @@ class Map:
 
 
 
-    def moveCharacter(self,position,direction,speed): #position [i,j](i ligne, j colonne) direction exemple [1,0] speed: nombre de cases parcourues en un tour
+    def moveCharacter(self,position,direction,speed):
+        # auteur Gabriel Desmullier
+        #deplacement de n'importe quel personnage a partir de ses coordonnee et d'une direction
+        #position [i,j](i ligne, j colonne) direction exemple [1,0] speed: nombre de cases parcourues en un tour
         if self.groundMap[position[0]][position[1]]=="#": #si le personnage commence son mouvement depuis une case chemin, il obtient un bonus de mouvement
             speed=speed+1
+
         code=False
         for c in range(speed):
-            iNew=position[0]+direction[0]
-            jNew=position[1]+direction[1]
+            iNew=position[0]+int(direction[0])
+            jNew=position[1]+int(direction[1])
 
             if iNew==1 or iNew==self.length-2 : #gestion bordure
                 code=True
@@ -581,7 +598,11 @@ class Map:
 
         return position
 
-    def checkHeroDoor(self,position): #fonction qui verifit si un personnage est arrive a la porte si c'est le cas la partie doit etre enregistre et un nouveau niveau doit etre charge
+    def checkHeroDoor(self,pos):
+        # auteur Gabriel Desmullier
+        #fonction qui verifit si un personnage est arrive a la porte si c'est le cas la partie doit etre enregistre et un nouveau niveau doit etre charge
+        position=copy.deepcopy(pos)
+
         if self.decorMap[position[0]][position[1]]==8:
             return True
         elif self.decorMap[position[0]+1][position[1]]==8:
@@ -603,46 +624,28 @@ class Map:
         else:
             return False
 
-    def checkMonster(self,position):  # fonction qui verifit si un monstre est a cote du hero, si c'est le cas il a combat
-            if self.characterMap[position[0]][position[1]] == 3:
-                return True
-            elif self.characterMap[position[0] + 1][position[1]] == 3:
-                return True
-            elif self.characterMap[position[0] - 1][position[1]] == 3:
-                return True
-            elif self.characterMap[position[0] + 1][position[1] + 1] == 3:
-                return True
-            elif self.characterMap[position[0] - 1][position[1] - 1] == 3:
-                return True
-            elif self.characterMap[position[0]][position[1] + 1] == 3:
-                return True
-            elif self.characterMap[position[0]][position[1] - 1] == 3:
-                return True
-            elif self.characterMap[position[0] + 1][position[1] - 1] == 3:
-                return True
-            elif self.characterMap[position[0] - 1][position[1] + 1] == 3:
-                return True
-            else:
-                return False
 
-    def checkMerchant(self,position):  # fonction qui verifit si un marchand est a cote du hero, si c'est le cas il a possibilite de commercer
-            if self.characterMap[position[0]][position[1]] == 2:
+
+    def checkHero(self,position): #position du marchand ou du monstre
+        # auteur Gabriel Desmullier
+        # fonction qui verifit si un marchand ou un monstre est a cote du hero
+            if self.characterMap[position[0]][position[1]] == 1:
                 return True
-            elif self.characterMap[position[0] + 1][position[1]] == 2:
+            elif self.characterMap[position[0] + 1][position[1]] == 1:
                 return True
-            elif self.characterMap[position[0] - 1][position[1]] == 2:
+            elif self.characterMap[position[0] - 1][position[1]] == 1:
                 return True
-            elif self.characterMap[position[0] + 1][position[1] + 1] == 2:
+            elif self.characterMap[position[0] + 1][position[1] + 1] == 1:
                 return True
-            elif self.characterMap[position[0] - 1][position[1] - 1] == 2:
+            elif self.characterMap[position[0] - 1][position[1] - 1] == 1:
                 return True
-            elif self.characterMap[position[0]][position[1] + 1] == 2:
+            elif self.characterMap[position[0]][position[1] + 1] == 1:
                 return True
-            elif self.characterMap[position[0]][position[1] - 1] == 2:
+            elif self.characterMap[position[0]][position[1] - 1] == 1:
                 return True
-            elif self.characterMap[position[0] + 1][position[1] - 1] == 2:
+            elif self.characterMap[position[0] + 1][position[1] - 1] == 1:
                 return True
-            elif self.characterMap[position[0] - 1][position[1] + 1] == 2:
+            elif self.characterMap[position[0] - 1][position[1] + 1] == 1:
                 return True
             else:
                 return False
@@ -653,9 +656,16 @@ class Map:
 
 #classe level, initialise la carte avec les monstres en fonction du level de la carte
 class Level:
+    # auteur Gabriel Desmullier
     "a level"
     map=Map()
-    def __init__(self,levelNumber):
+    def __init__(self,levelNumber,hero):
+        # auteur Gabriel Desmullier
+        #les personnages du niveau, seul le hero vient de l'exterieur
+
+        self.monsters=[]
+        self.merchants=[]
+
         file = open(r'levelMap.txt', 'r+', encoding="utf-8")
         enregistrement = []
 
@@ -668,60 +678,112 @@ class Level:
         engr=enregistrement[levelNumber-1].split(";")
         name=engr[1]
         river=engr[2]
-        roads=engr[3]
-        trees=engr[4]
-        houses=engr[5]
-        merchants=engr[6]
-        monster=engr[7]
-        levelMonster=engr[8]
-        levelMerchant=engr[9]
+        roads=int(engr[3])
+        trees=int(engr[4])
+        houses=int(engr[5])
+        merchants=int(engr[6])
+        monster=int(engr[7])
+        levelMonster=int(engr[8])
+        levelMerchant=int(engr[9])
 
         #creation de la carte
 
         self.map.initialiseListe()
-        self.map.groundMapInitialisation(ast.literal_eval(river),int(roads))
-        self.map.decorMapInitialisation(int(trees),int(houses))
+        self.map.groundMapInitialisation(ast.literal_eval(river),roads)
+        self.map.decorMapInitialisation(trees,houses)
 
         #ajout personnages
-        gdzdzi=self.map.adHero()
-        for i in range(int(merchants)):
-            ga=self.map.adMerchant()
-        for i in range(int(monster)):
-            ded=self.map.adMonster()
+
+        for i in range(merchants):
+            merchant= ch.Merchant(i,"Marchand "+str(i),levelMerchant,1)
+            merchant.position=self.map.adMerchant()
+            self.merchants.append(merchant)
+        for i in range(monster):
+            if levelMonster==1:
+
+                id=random.randint(1,3)
+            elif levelMonster==2:
+
+                id=random.randint(4,6)
+            else:
+
+                id=random.randint(7,9)
+            monster=ch.chargeAMonsterFromDB(id)
+            monster.position=self.map.adMonster()
+            self.monsters.append(monster)
+
+        self.heroPosition = self.map.adHero() #le level ne garde que la position du hero
+        hero.position=self.heroPosition
 
         print("#############################################")
         print("level:"+str(levelNumber))
         print(str(name))
         print("#############################################")
 
+    def levelPrintMap(self):
+        self.map.printMap()
+
+    def moveMonsters(self):
+        # auteur Gabriel Desmullier
+        #avance tous les monstre d'une maniere qui depend de leur level
+        for monster in self.monsters:
+
+            if monster.level==1: #les monstres de niveau 1 se deplacent aleatoirement
+                directionMonster=monster.random_move()
+                monster.position=self.map.moveCharacter(monster.position,directionMonster,monster.speed)
+            elif monster.level==2: #les monstres de niveau 2 se deplacent selon 4 directions
+                directionMonster=monster.high_level_smart_move(self.heroPosition)
+                monster.position = self.map.moveCharacter(monster.position, directionMonster, monster.speed)
+            elif monster.level==3: #les monstres de niveau 3 se deplacent selon 8 directions possibles(diagonales en plus)
+                directionMonster = monster.low_level_smart_move(self.heroPosition)
+                monster.position = self.map.moveCharacter(monster.position, directionMonster, monster.speed)
+
+
+    def moveMerchants(self):
+        # auteur Gabriel Desmullier
+        #avance les marchands de maniere random
+        for merchant in self.merchants:
+            directionMerchant=merchant.random_move()
+            merchant.position=self.map.moveCharacter(merchant.position,directionMerchant,merchant.speed)
+
+    def movehero(self,hero,direction):
+        # auteur Gabriel Desmullier
+        hero.position=self.map.moveCharacter(hero.position,direction,hero.speed)
+
+    def battles(self,hero):
+        # auteur Gabriel Desmullier
+        #cherche les monstres qui sont au combat avec le hero et execute les combats, est renvoi l'etat de vie du hero
+        for monster in self.monsters:
+            if self.map.checkHero(monster.position)==True: #si un monstre est a cote du hero
+                result = combat(hero,monster) #il y a un combat
+                if result==True:
+                    self.map.characterMap[monster.position[0]][monster.position[1]]=0 #le monstre est retire de la carte
+                    monster.position=[0,0] #il faudrait trouver un moyen de supprimer le monstre de la liste
+                    hero.inventory.gold=hero.inventory.gold+30
+                    hero.exp=hero.exp+10 #gain d'or et d'experience
+                    #si le hero n'est pas mort, la fonction ne retourne rien
+                else:
+                    return False #le hero est mort
+        return True
+
+    def shopping(self,hero):
+        # auteur Gabriel Desmullier
+        #execute l'interaction marchand pour tous les marchands a proximite
+        for merchant in self.merchants:
+            if self.map.checkHero(merchant.position)==True:
+                interactionMerchant(hero,merchant)
 
 
 
 
 
-for i in range(30):
-     level=Level(i+1)
-     level.map.printMap()
 
 
 
 
 
-#test generation et deplacement
-#maptest=Map()
-#maptest.initialiseListe()
-#maptest.groundMapInitialisation(True,2)
-#maptest.decorMapInitialisation(6,4)
-#monster=maptest.adMonster()
-#hero=maptest.adHero()
-#trader=maptest.adMerchant()
-#maptest.printMap()
 
-#for i in range (20):
- #   monster=maptest.moveCharacter(monster,[1,1],2)
-  #  hero=maptest.moveCharacter(hero,[ -1 , 0 ],2)
-   # trader=maptest.moveCharacter(trader,[0,1],2)
-    #maptest.printMap()
-    #time.sleep(0.041)
+
+
 
 
