@@ -758,10 +758,9 @@ class Level:
                 result = combat(hero,monster) #il y a un combat
                 if result==True:
                     self.map.characterMap[monster.position[0]][monster.position[1]]=0 #le monstre est retire de la carte
-                    monster.position=[0,0] #il faudrait trouver un moyen de supprimer le monstre de la liste
+                    self.monsters.remove(monster) #supprimer le monstre de la liste
                     hero.inventory.gold=hero.inventory.gold+30
                     hero.exp=hero.exp+10 #gain d'or et d'experience
-                    #si le hero n'est pas mort, la fonction ne retourne rien
                 else:
                     return False #le hero est mort
         return True

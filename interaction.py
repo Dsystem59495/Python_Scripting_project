@@ -69,10 +69,10 @@ def combat(hero,monster):
                    coup=random.randint(1,100)
                    if coup<hero.dodge_chance: #savoir si le coup porte a reussi
 
-                       parryMonster=random.randint(1,100) #savoir si le coup est parré par le monstre
-                       if parryMonster<monster.parry_chance and monsterEffort>=10: #si le monstre peut parrer
+                       parryMonster=random.randint(1,100) #savoir si le coup est paré par le monstre
+                       if parryMonster<monster.parry_chance and monsterEffort>=10: #si le monstre peut parer
                            monsterEffort = monsterEffort - 10 #il parre mais avec effort
-                           print("\nLe coup de taille a ete parre par votre adversaire\n")
+                           print("\nLe coup de taille a ete pare par votre adversaire\n")
                        else: #le coup est porte est-ce qu'il s'agit d'un coup critique?
                            scaleDamage = hero.max_attack - hero.min_attack
                            tier = int(scaleDamage / 3)
@@ -103,10 +103,10 @@ def combat(hero,monster):
                     coup = random.randint(1, 100)
                     if coup < hero.dodge_chance:  # savoir si le coup porte a reussi
 
-                         parryMonster = random.randint(1, 100)  # savoir si le coup est parré par le monstre
-                         if parryMonster < monster.parry_chance and monsterEffort >= 10:  # si le monstre peut parrer
+                         parryMonster = random.randint(1, 100)  # savoir si le coup est paré par le monstre
+                         if parryMonster < monster.parry_chance and monsterEffort >= 10:  # si le monstre peut parer
                              monsterEffort = monsterEffort - 10  # il parre mais avec effort
-                             print("\nLe coup d'estoc a ete parre par votre adversaire\n")
+                             print("\nLe coup d'estoc a ete pare par votre adversaire\n")
                          else:  # le coup est porte est-ce qu'il s'agit d'un coup critique?
                                scaleDamage = hero.max_attack - hero.min_attack
                                tier = int(scaleDamage / 3)
@@ -168,30 +168,30 @@ def combat(hero,monster):
                     monsterEffort = monsterEffort - 20
                     coup = random.randint(1, 100)
                     if coup < monster.dodge_chance:  # savoir si le coup porte a reussi
-                        #on demande au hero s'il veut parrer
+                        #on demande au hero s'il veut parer
                         if heroEffort > 10: #et si il en a la capacite
                             print(
-                                "\nVotre adversaire donne un coup de taille\n\nVOULEZ VOUS TENTER DE PARRER (-10 EFFORT)\n1: OUI\n2: NON")
+                                "\nVotre adversaire donne un coup de taille\n\nVOULEZ VOUS TENTER DE PARER (-10 EFFORT)\n1: OUI\n2: NON")
                             print("ENTREZ LE NUMERO DE L'ACTION")
-                            choixParrer = str(input())
-                            while choixParrer != "1" and choixParrer != "2":
+                            choixParer = str(input())
+                            while choixParer != "1" and choixParer != "2":
                                 print("ENTREZ LE NUMERO DE L'ACTION")
-                                choixParrer = str(input())
+                                choixParer = str(input())
 
-                            if choixParrer == "1":  #il peut essayer de parrer
+                            if choixParer == "1":  #il peut essayer de parrer
                                 heroEffort = heroEffort - 10
                                 parryHero = random.randint(1, 100)
                                 if parryHero < hero.parry_chance:
-                                    print("\nLe coup a ete parre\n")
-                                else: #sinon on passe la variable choixParrer a 2 comme si il avait choisi de ne rien faire
-                                    print("\nVous n'avez pas reussi a parrer le coup\n")
+                                    print("\nLe coup a ete pare\n")
+                                else: #sinon on passe la variable choixParer a 2 comme si il avait choisi de ne rien faire
+                                    print("\nVous n'avez pas reussi a parer le coup\n")
                                     choixParrer = "2"
 
                         else: #si le joueur n'a pas la force de parrer on met chixParrer a 2 pour subir le coup
-                          choixParrer = "2"
+                          choixParer = "2"
                           print("\nVotre adversaire tente de vous donner un coup de taille\n")
 
-                        if choixParrer == "2": #le coup est subit (la prise en charge des degats se fait comme pour le hero)
+                        if choixParer == "2": #le coup est subit (la prise en charge des degats se fait comme pour le hero)
                             scaleDamage = monster.max_attack - monster.min_attack
                             tier = int(scaleDamage / 3)
                             coupCritique = random.randint(1, 100)
@@ -216,27 +216,27 @@ def combat(hero,monster):
                     if coup < monster.dodge_chance:  # savoir si le coup porte a reussi
                         #on demande au hero s'il veut parrer
                          if heroEffort>10:
-                             print("\nVotre adversaire donne un coup d'estoc'\n\nVOULEZ VOUS TENTER DE PARRER (-10 EFFORT)\n1: OUI\n2: NON")
+                             print("\nVotre adversaire donne un coup d'estoc'\n\nVOULEZ VOUS TENTER DE PARER (-10 EFFORT)\n1: OUI\n2: NON")
                              print("ENTREZ LE NUMERO DE L'ACTION")
-                             choixParrer = str(input())
-                             while choixParrer != "1" and choixParrer != "2":
+                             choixParer = str(input())
+                             while choixParer != "1" and choixParer != "2":
                                print("ENTREZ LE NUMERO DE L'ACTION")
-                               choixParrer = str(input())
+                               choixParer = str(input())
 
-                             if choixParrer=="1":
+                             if choixParer=="1":
                                 heroEffort=heroEffort-10
                                 parryHero=random.randint(1,100)
                                 if parryHero<hero.parry_chance:
-                                   print("\nLe coup a ete parre\n")
+                                   print("\nLe coup a ete pare\n")
                                 else:
-                                   print("\nVous n'avez pas reussi a parrer le coup\n")
-                                   choixParrer="2"
+                                   print("\nVous n'avez pas reussi a parer le coup\n")
+                                   choixParer="2"
 
                          else:
-                             choixParrer="2"
+                             choixParer="2"
                              print("\nVotre adversaire tente de vous donner un coup d'estoc\n")
 
-                         if choixParrer=="2":
+                         if choixParer=="2":
                             coupCritique = random.randint(1, 100)
                             scaleDamage = monster.max_attack - monster.min_attack
                             tier = int(scaleDamage / 3)
@@ -432,18 +432,22 @@ def actionJoueur(hero,level):
             level.movehero(hero,[0, -1])
     elif key=="a":
             gestionInventaire(hero)
+    elif key=="e":
+          hero.afficher_stats()
     #codes triches
     elif key=="LifeForever": #code triche vie au maximum
         hero.health = 150
     elif key=="Indestructible": #code triche invincible: pour parrer la totalite des coups de l'ennemi
         hero.parry_chance=100
+        hero.armor = 100
     elif key=="Master":#code triche maitre! : des coups 100% gagnants
         hero.dodge_chance=100
         hero.critical_hit_chance=100
+        hero.parry_chance = 100
     elif key=="TimeIsMoney": #code triche pour avoir beaucoup d'argent
         hero.inventory.gold=100000
     elif key=="Speed": #augmente la vitesse
-        hero.speed=5
+        hero.speed=3
     elif key=="Suicide": #fonction tentative de suicide
         hero.health=0
 

@@ -5,7 +5,7 @@
 
 import random
 
-import Objet as ob
+import objet as ob
 
 
 
@@ -531,9 +531,18 @@ class Hero(Character):
 
     def afficher_stats(self):
         # auteur Romain Dermu
-        print(self.name,"   Level ",self.level,"  EXP:",self.exp,"/",100,"\n")
-        print("Health ",self.health)
-        print("MP         ",self.magic_points)
+        print("Nom:" +self.name)
+        print("Niveau: "+str(self.level))
+        print("Experience: "+str(self.exp))
+        print("Sante: "+str(self.health))
+        print("Armure: "+str(self.armor))
+        print("Reussite coup: "+str(self.dodge_chance)+"%")
+        print("Reussite parer: "+str(self.parry_chance)+"%")
+        print("Reussite coup critique: "+str(self.critical_hit_chance)+"%")
+        print("Degats minimum: "+str(self.min_attack))
+        print("Degats maximum: "+str(self.max_attack))
+        print("MP: ",str(self.magic_points))
+
 
 
 
@@ -654,6 +663,9 @@ class Monster(Character):
         
     def low_level_smart_move(self,hero_position):
         # auteur Romain Dermu
+        #pour avancer sur la carte on demande une direction
+        #cette fonction fait avancer les monstres vers le hero sur 8 axes
+        #utilise par les monstres de niveau 3
         direction = [0,0]
         if abs(self.position[0] - hero_position[0] < self.position[1] - hero_position[1]):
             if self.position[0] < hero_position[0]:
@@ -679,11 +691,16 @@ class Monster(Character):
     
     def random_move(self):
         # auteur Romain Dermu
+        #cette fonction donne une direction au hasard
+        #pour les monstres de niveau 1 et les marchands
         direction = [random.choice([-1,0,1]),random.choice([-1,0,1])]
         return direction
         
     def high_level_smart_move(self,hero_position):
         # auteur Romain Dermu
+        #pour avancer sur la carte on demande une direction
+        #cette fonction fait avancer les monstres vers le hero sur 4 axes
+        #utilise par les monstres de niveau 2
         direction = [0,0]
         if self.position[0] < hero_position[0]:
             direction[0] = 1
